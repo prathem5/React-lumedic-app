@@ -15,7 +15,8 @@ const styles = createUseStyles({
       bottom: 0,
       left: 'auto'
     },
-    maxWidth:'800px'
+    maxWidth:'800px',
+    backgroundColor:'#a8a8a8'
   },
    
 
@@ -23,6 +24,7 @@ const styles = createUseStyles({
       display: 'flex',
       flexGrow: 1,
       flexDirection: 'column',
+      backgroundColor:'#a8a8a8'
 
     }
     
