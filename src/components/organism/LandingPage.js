@@ -4,24 +4,18 @@ import {
   Button,
   TextInput,
   Form,
-  TextArea,
   Select,
   SelectItem,
   Grid,
   Row,
   Column,
-  ProgressIndicator,
-  ProgressStep
+ 
  
 } from 'carbon-components-react';
 import { createUseStyles } from 'react-jss';
 import ProgressBar from '../molecules/ProgressBar/ProgressBar';
-
-
-
-
-
-
+import States from '../atom/States';
+import name from 'react-hook-form';
 
 const styles = createUseStyles({
   contentWrapper: {
@@ -40,11 +34,11 @@ const styles = createUseStyles({
 
    },
    maxWidth:'100%',
-   backgroundColor:'#e0e0e0'
+   backgroundColor:'#e0e0e0   '
    
  },
  dexcriptionText:{
-  fontWeight:'bold',
+  fontWeight:'800',
   fontSize : '0.875rem',
    
    lineHeight:'1.25rem',
@@ -60,10 +54,6 @@ const styles = createUseStyles({
    fontFamily:'Victor'
  },
 
- progressBar:{
-  
-
- },
  infoDescription:{
   
  fontSize : '0.875rem',
@@ -72,7 +62,11 @@ const styles = createUseStyles({
   letterSpacing:0.16
 
  }
-} )
+} );
+
+
+
+
 
 
 const LandingPage = () => {
@@ -88,13 +82,13 @@ const LandingPage = () => {
    
       <div className ={classes.formContainer}>
       <div> 
-      <labelText className= {classes.dexcriptionText} style={{fontWeight: ''}} >Please enter the same information you provided in your Providence health system medical record.</labelText>
+      <label className= {classes.dexcriptionText} style={{fontWeight: ''}} >Please enter the same information you provided in your Providence health system medical record.</label>
       </div>
       <div  style={{paddingTop: '2rem'}}> 
-      <labelText className={classes.infoDescription}>The information you provide on this page is used to locate your record from your health system for the
+      <label className={classes.infoDescription}>The information you provide on this page is used to locate your record from your health system for the
          purpose of issuing your vaccine records to your mobile device. By providing your mobile number you are consenting 
          to be contacted regarding the availability of your vaccine records. Your mobile number will not be used for mobile
-          marketing, and messaging or data charges may be imposed by your carrier.</labelText>
+          marketing, and messaging or data charges may be imposed by your carrier.</label>
           </div>   
   <Form>
     <Grid>
@@ -108,6 +102,9 @@ const LandingPage = () => {
       invalidText="Invalid error message."
       labelText="FirstName"
       placeholder="Jhon"
+      onchange={(e) => {
+        if
+      }}
       
       
     />
@@ -118,6 +115,7 @@ const LandingPage = () => {
       invalidText="Invalid error message."
       labelText="LastName"
       placeholder="Doe"
+      backgroundColor='#e0e0e0'
     />
   </Column>
   </Row>
@@ -159,12 +157,11 @@ const LandingPage = () => {
   <Column style={{paddingTop:'1rem'}}>
     
   <TextInput
-  
       id="test2"
       invalidText="Invalid error message."
       labelText="Email"
       placeholder="you@mail.com"
-      backgroundColor="#f0efef"
+     
 
     />
   </Column>
@@ -210,18 +207,14 @@ const LandingPage = () => {
       invalidText="This is an invalid error message."
       labelText="State"
     >
-      <SelectItem
-        text="Option 1"
-        value="option-1"
+     {States.map((statename) =>
+        <SelectItem key={statename.abbr}
+        text={statename.abbr}
+        value={statename.name}
       />
-      <SelectItem
-        text="Option 2"
-        value="option-2"
-      />
-      <SelectItem
-        text="Option 3"
-        value="option-3"
-      />
+     )}
+     
+     
     </Select>
     </Column>
   
