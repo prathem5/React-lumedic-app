@@ -16,6 +16,7 @@
     "jss": "^10.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-hook-form": "^6.15.1",
     "react-jss": "^10.5.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
@@ -25,7 +26,7 @@
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=9001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
