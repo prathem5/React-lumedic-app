@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
-import { Button, Column, Content } from 'carbon-components-react';
-import Header from './components/molecules/Header';
+import { Content } from 'carbon-components-react';
+import LumedicHeader from './components/molecules/Header/Header';
 import { Route, Switch } from 'react-router-dom';
-import LandingPage from './components/organism/';
+import LandingPage from './components/page/LandingPage/LandingPage';
 import { createUseStyles } from 'react-jss';
-import { color, flex, flexDirection, flexGrow, maxWidth } from 'styled-system';
 
 const styles = createUseStyles({
   bxContainer:{
@@ -35,7 +33,7 @@ const App = () => {
   const classes = styles()
   return (
     <div>
-  <Header />
+  <LumedicHeader />
   <div className={classes.Container}>
   <Content className ={classes.bxContainer}>
   <Switch>

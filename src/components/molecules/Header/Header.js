@@ -9,16 +9,16 @@ import {
   HeaderName,
   
 } from 'carbon-components-react';
-import { Link } from 'react-router-dom';
-import lumedic from './lumedic.svg'
-import Logo from './Logo';
 
-const TutorialHeader = () => (
+import LumedicLogo from './Logo';
+
+const LumedicHeader = () => (
   <div className="container">
     <span>
-    <Logo/>
+   
     </span>
     <Header style={{backgroundColor:'#f4f4f4',border:0}} >
+ <LumedicLogo/>
       <HeaderName style ={{color:'#161616'}}href="#" prefix="">
         Lumedic
       </HeaderName>
@@ -26,4 +26,4 @@ const TutorialHeader = () => (
   </div>
 );
 
-export default TutorialHeader;
+export default LumedicHeader;

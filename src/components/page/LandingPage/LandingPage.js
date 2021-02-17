@@ -13,10 +13,11 @@ import {
  
 } from 'carbon-components-react';
 import { createUseStyles } from 'react-jss';
-import ProgressBar from '../molecules/ProgressBar/ProgressBar';
-import States from '../atom/States';
+import ProgressBar from '../../molecules/ProgressBar/ProgressBar';
+import States from '../../atom/States';
+import FormHandler from '../../classes/FormHandler';
+import FormSubmit from '../../classes/FormSubmit';
 import {useForm} from 'react-hook-form';
-import axios from 'axios';
 
 
 const styles = createUseStyles({
@@ -66,99 +67,41 @@ const styles = createUseStyles({
  }
 } );
 
-
-
-
-
-
 const LandingPage = () => {
-  const [values,setValues] =useState({
+  const [validity ,setValidity] =    useState({
 
-    firstName:"",
-  lastName:"",
-  dateOfBirth:"",
-  email:"",
-  last4SSN:"",
-  phoneNumber:"",
-  addressLine1:"",
-  addressLine2:"",
-  city:"",
-  stateList:"",
-  zip:"",
-  credName:"COVID-19 Vaccine"
+    firstName:true,
+      lastName:true,
+      dateOfBirth:true,
+      email:true,
+      last4SSN:true,
+      phoneNumber:true,
+      addressLine1:true,
+      addressLine2:true,
+      city:true,
+      state:true,
+      zip:true,
+      
+      
+      });
+  //   //   const[errors,setErrors] = useState({});
+
+  //     const handleChange = event =>  {
+  //       const {name,value} =  event.target;
+  //      setValues({
+  //        ...Values,
+  //        [name]:value
+  //      });  
+  //    };
+  const {handleChange,Values} = FormHandler({});
+  const {submit} =FormSubmit();
   
-  })
   // const [validity ,setvalidity] =useState(false)
-   const {register, handleSubmit,errors} = useForm();
+   
 
   const classes = styles(); 
- const handleChange = event =>  {
-   const {name,value} =  event.target;
-  setValues({
-    ...values,
-    [name]:value
-  });
-  
-};
-  const submit = event => {
-    event.preventDefault();
-    console.log(values);
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-              firstName:"test",
-               lastName:"test",
-               dateOfBirth:"12/12/1990",
-           email:"positivetestuser@lumedic.io",
-           last4SSN:"1234",
-             phoneNumber:"8469767964",
-        
-             addressLine1:"test",
-               addressLine2:"test",
-               city:"test",
-               state:"WA",
-               zip:"12345",
-               credName:"COVID-19 Vaccine"
-               })
-     
-  };
-  fetch('https://api.lumedic.id/portal/v1/patient/validate', requestOptions)
-      .then(response => { 
-        console.log(response);
-});
-    
-}
-    try{
-//     //axios.post
-//     console.log(values);
-//     axios.post('https://api.lumedic.id/portal/v1/patient/validate',{
-//       firstName:"test",
-//       lastName:"test",
-//       dateOfBirth:"12/12/1990",
-//       email:"positivetestuser@lumedic.io",
-//       last4SSN:"1234",
-//       phoneNumber:"8469767964",
-//       addressLine1:"test",
-//       addressLine2:"test",
-//       city:"test",
-//       state:"WA",
-//       zip:"12345",
-//       credName:"COVID-19 Vaccine"
-//       })
-//     .then(res => {
-//       console.log(res);
-//       console.log(res.data);    
-//     })
-  }
+ const {register,errors} =useForm();
 
-catch(e){
-  console.log(e);
-
-  } 
-    
-
-  
   return (
   
     <div  className={classes.contentWrapper}>
@@ -189,7 +132,7 @@ catch(e){
       name ="firstName"
       id="test2"
       onChange={handleChange}
-      value={values.firstName}
+     value={Values.firstName}
       invalidText="Invalid error message."
       labelText="FirstName"
       placeholder="Jhon"
@@ -205,8 +148,7 @@ catch(e){
       //   }
       // }}
     />
-     {errors.firstname && ""}
-   
+    
 </Column>
   <Column >
   <TextInput
@@ -214,7 +156,7 @@ catch(e){
    name ="lastName"
       id="test2"
       onChange={handleChange}
-      value={values.lastName}
+      value={Values.lastName}
       invalidText="Invalid error message."
       labelText="LastName"
       placeholder="Doe"
@@ -233,7 +175,7 @@ catch(e){
       labelText="Date of Birth"
       placeholder="DD/MM/YYYY"
       onChange={handleChange}
-      value={values.dateOfBirth}
+      value={Values.dateOfBirth}
     />
 </Column>
   <Column >
@@ -245,7 +187,7 @@ catch(e){
       labelText="Social Security Number (Last 4 Digits, optional)"
       placeholder="####"
       onChange={handleChange}
-      value={values.last4SSN}
+      value={Values.last4SSN}
     />
   </Column>
   </Row>
@@ -265,7 +207,7 @@ catch(e){
       labelText="To receive text messages and download our mobile application"
       placeholder="(###)###-###"
       onChange={handleChange}
-      value={values.phoneNumber}
+      value={Values.phoneNumber}
     />
 </Column>
   <Column style={{paddingTop:'1rem'}}>
@@ -278,7 +220,7 @@ catch(e){
       labelText="Email"
       placeholder="you@mail.com"
       onChange={handleChange}
-      value={values.email}
+      value={Values.email}
      
 
     />
@@ -297,7 +239,7 @@ catch(e){
     
       placeholder="Primary Street Address"
       onChange={handleChange}
-      value={values.addressLine1}
+      value={Values.addressLine1}
     />
 </Column>
   <Column>
@@ -310,7 +252,7 @@ catch(e){
       
       placeholder="Unit #, Apt, Suite"
       onChange={handleChange}
-      value={values.addressLine2}
+      value={Values.addressLine2}
     />
   </Column>
   </Row>
@@ -325,7 +267,7 @@ catch(e){
       labelText="City"
       placeholder="Seatle"
       onChange={handleChange}
-      value={values.city}
+      value={Values.city}
     />
 </Column>
 <Column className="bx--column" >
@@ -337,13 +279,13 @@ catch(e){
       invalidText="This is an invalid error message."
       labelText="State"
       onChange={handleChange}
-        value={values.stateList}
-        name="stateList"
+        value={Values.state}
+        name="state"
     >
      {States.map((statename) =>
         <SelectItem key={statename.abbr}
         text={statename.abbr}
-        value={statename.name}
+        value={statename.abbr}
         
       />
      )}
@@ -362,7 +304,7 @@ catch(e){
       labelText="Postal Code"
       placeholder="#####"
       onChange={handleChange}
-      value={values.zip}
+      value={Values.zip}
     />
     </Column>
     </Row>
