@@ -15,9 +15,8 @@ import {
 import { createUseStyles } from 'react-jss';
 import ProgressBar from '../../molecules/ProgressBar/ProgressBar';
 import States from '../../atom/States';
-import FormHandler from '../../classes/FormHandler';
-import FormSubmit from '../../classes/FormSubmit';
 import {useForm} from 'react-hook-form';
+import {PatientValidate} from '../../classes/LumedicApi/PatientValidateApi'
 
 
 const styles = createUseStyles({
@@ -56,6 +55,9 @@ const styles = createUseStyles({
    paddingBottom:'3rem',
    fontFamily:'Victor'
  },
+ textInput:{
+   border:' 3px ridge red'
+ },
 
  infoDescription:{
   
@@ -68,35 +70,159 @@ const styles = createUseStyles({
 } );
 
 const LandingPage = () => {
-  const [validity ,setValidity] =    useState({
+  const [Values ,setValues] =    useState({
 
-    firstName:true,
-      lastName:true,
-      dateOfBirth:true,
-      email:true,
-      last4SSN:true,
-      phoneNumber:true,
-      addressLine1:true,
-      addressLine2:true,
-      city:true,
-      state:true,
-      zip:true,
+    firstName:"",
+      lastName:"",
+      dateOfBirth:"",
+      email:"",
+      last4SSN:"",
+      phoneNumber:"",
+      addressLine1:"",
+      addressLine2:"",
+      city:"",
+      state:"",
+      zip:"",
+      credName:"COVID-19 Vaccine"
+      
+      });
+  const [invalidity ,setinValidity] =    useState({
+
+    firstName:false,
+      lastName:false,
+      dateOfBirth:false,
+      email:false,
+      last4SSN:false,
+      phoneNumber:false,
+      addressLine1:false,
+      addressLine2:false,
+      city:false,
+      state:false,
+      zip:false
+      
       
       
       });
-  //   //   const[errors,setErrors] = useState({});
+     
+    const[errorText,setErrorText] = useState({
+      
+    firstName:"",
+    lastName:"",
+    dateOfBirth:"",
+    email:"",
+    last4SSN:"",
+    phoneNumber:"",
+    addressLine1:"",
+    addressLine2:"",
+    city:"",
+    state:"",
+    zip:"",
+    });
 
-  //     const handleChange = event =>  {
-  //       const {name,value} =  event.target;
-  //      setValues({
-  //        ...Values,
-  //        [name]:value
-  //      });  
-  //    };
-  const {handleChange,Values} = FormHandler({});
-  const {submit} =FormSubmit();
+      const handleChange = e =>  {
+        const {name,value} =  e.target;
+       setValues({
+         ...Values,
+         [name]:value
+       }); 
+       if(e.target.id === 'firstName'){
+       if(e.target.value === ''){
+        setinValidity({...invalidity, [e.target.id]: true});
+        setErrorText({...errorText,[e.target.id]:'FirstName is Required'})
+      }else{
+        setinValidity({...invalidity, [e.target.id]: false})
+      }
+      
+    }
+    if(e.target.id === 'lastName'){
+      if(e.target.value === ''){
+       setinValidity({...invalidity, [e.target.id]: true})
+       setErrorText({...errorText,[e.target.id]:'LastName is Required'})
+     }
+     else{
+      setinValidity({...invalidity, [e.target.id]: false})
+    }
+    }
+   
+   if(e.target.id === 'dateOfBirth'){
+    if(e.target.value === '' || e.target.value !=('/d{2}\//d{2}\//d{4}')){
+     setinValidity({...invalidity, [e.target.id]: true})
+     setErrorText({...errorText,[e.target.id]:'Please enter the correct date format'})
+   }else{
+    setinValidity({...invalidity, [e.target.id]: false})
+  }
+   
+ }
+ if(e.target.id === 'last4SSN'){
+  if(e.target.value === '' || e.target.value !=('/d{3}')){
+   setinValidity({...invalidity, [e.target.id]: true})
+   setErrorText({...errorText,[e.target.id]:'SSN is Required'})
+ }else{
+  setinValidity({...invalidity, [e.target.id]: false})
+}
+ 
+}
+if(e.target.id === 'phoneNumber'){
+  if(e.target.value === ''||e.target.value != ('([^\d])\d{9}([^\d])')){
+   setinValidity({...invalidity, [e.target.id]: true})
+   setErrorText({...errorText,[e.target.id]:'Mobile Number  is Required'})
+ }else{
+  setinValidity({...invalidity, [e.target.id]: false})
+}
+
+}
+if(e.target.id === 'email'){
+  if(e.target.value === '' || e.target.value != ('([a-z0-9\.]+@[a-z]+\.[a-z]+)')){
+   setinValidity({...invalidity, [e.target.id]: true})
+   setErrorText({...errorText,[e.target.id]:'Please enter valid email in format: you@mail.com'})
+ }else{
+  setinValidity({...invalidity, [e.target.id]: false})
+}
+ 
+}
+
+if(e.target.id === 'addressLine1'){
+  if(e.target.value === ''){
+   setinValidity({...invalidity, [e.target.id]: true})
+   setErrorText({...errorText,[e.target.id]:'Address is Required'})
+ }else{
+  setinValidity({...invalidity, [e.target.id]: false})
+}
+ 
+}
+if(e.target.id === 'city'){
+  if(e.target.value === ''){
+   setinValidity({...invalidity, [e.target.id]: true})
+ }else{
+  setinValidity({...invalidity, [e.target.id]: false})
+}
+ 
+}
+if(e.target.id === 'zip' || e.target.value !=('/d{4}') ){
+  if(e.target.value === ''){
+   setinValidity({...invalidity, [e.target.id]: true})
+ }
+ else{
+  setinValidity({...invalidity, [e.target.id]: false})
+}
+ 
+}
+}
+     
+
+  //  const validateInfo=(event)=>{
+   
+  //    event.preventDefault();
+  //    if(event.target.value ==''){
+  //     setinValidity({...invalidity,[name]:true});
+  //     setErrorText({...errorText,[name]:event.target.labelText+"required"
+      
+  //     })
+  //    }
+  // }
+   
   
-  // const [validity ,setvalidity] =useState(false)
+  // const [invalidity ,setvalidity] =useState(false)
    
 
   const classes = styles(); 
@@ -120,7 +246,11 @@ const LandingPage = () => {
          to be contacted regarding the availability of your vaccine records. Your mobile number will not be used for mobile
           marketing, and messaging or data charges may be imposed by your carrier.</label>
           </div>   
-  <Form  onSubmit={submit}>
+  <Form  onSubmit={(event) => {
+    event.preventDefault();
+   console.log(invalidity)
+    // event.preventDefault(PatientValidate(Values))
+    }}>
     <Grid>
       
   <Row  style={{paddingTop: '2rem'}}>
@@ -128,14 +258,16 @@ const LandingPage = () => {
   <Column >
     <TextInput
       ref={register({required : true} )}
-      
+     onFocus={()=> ""}
       name ="firstName"
-      id="test2"
-      onChange={handleChange}
-     value={Values.firstName}
-      invalidText="Invalid error message."
+      id="firstName"
+    //   onChange={handleChange}
+    // value={Values.firstName}
       labelText="FirstName"
       placeholder="Jhon"
+      onBlur={handleChange}
+       invalid={invalidity.firstName}
+      invalidText={errorText.firstName}
       // onFocus ={()=>{
       //   setvalidity(false);
       // }}
@@ -154,10 +286,11 @@ const LandingPage = () => {
   <TextInput
    ref={register({required : true} )}
    name ="lastName"
-      id="test2"
-      onChange={handleChange}
-      value={Values.lastName}
-      invalidText="Invalid error message."
+      id="lastName"
+      onBlur={handleChange}
+      // value={Values.lastName}
+      invalid={invalidity.lastName}
+      invalidText={errorText.lastName}
       labelText="LastName"
       placeholder="Doe"
      
@@ -170,24 +303,26 @@ const LandingPage = () => {
     <TextInput
      ref={register({required : true} )}
      name ="dateOfBirth"
-      id="test2"
-      invalidText="Invalid error message."
+      id="dateOfBirth"
+      invalid={invalidity.dateOfBirth}
+      invalidText={errorText.dateOfBirth}
       labelText="Date of Birth"
       placeholder="DD/MM/YYYY"
-      onChange={handleChange}
-      value={Values.dateOfBirth}
+      onBlur={handleChange}
+      
     />
 </Column>
   <Column >
   <TextInput
    ref={register({required : true} )}
    name ="last4SSN"
-      id="test2"
-      invalidText="Invalid error message."
+      id="last4SSN"
+      invalid={invalidity.last4SSN}
+      invalidText={errorText.last4SSN}
       labelText="Social Security Number (Last 4 Digits, optional)"
       placeholder="####"
-      onChange={handleChange}
-      value={Values.last4SSN}
+      onBlur={handleChange}
+      
     />
   </Column>
   </Row>
@@ -202,12 +337,12 @@ const LandingPage = () => {
     <TextInput
      ref={register({required : true} )}
      name ="phoneNumber"
-      id="test2"
-      invalidText="Invalid error message."
+      id="phoneNumber"
+      invalid={invalidity.phoneNumber}
+      invalidText={errorText.phoneNumber}
       labelText="To receive text messages and download our mobile application"
       placeholder="(###)###-###"
-      onChange={handleChange}
-      value={Values.phoneNumber}
+      onBlur={handleChange}
     />
 </Column>
   <Column style={{paddingTop:'1rem'}}>
@@ -215,12 +350,12 @@ const LandingPage = () => {
   <TextInput
    ref={register({required : true} )}
    name ="email"
-      id="test2"
-      invalidText="Invalid error message."
+      id="email"
+      invalid={invalidity.email}
+      invalidText={errorText.email}
       labelText="Email"
       placeholder="you@mail.com"
-      onChange={handleChange}
-      value={Values.email}
+      onBlur={handleChange}
      
 
     />
@@ -233,26 +368,26 @@ const LandingPage = () => {
     <TextInput
      ref={register({required : true} )}
      name ="addressLine1"
-      id="test2"
-      invalidText="Invalid error message."
+      id="addressLine1"
+      invalid={invalidity.addressLine1}
+      invalidText={errorText.addressLine1}
       labelText="Mailing Address"
     
       placeholder="Primary Street Address"
-      onChange={handleChange}
-      value={Values.addressLine1}
+      onBlur={handleChange}
     />
 </Column>
   <Column>
   <TextInput
    ref={register({required : false} )}
    name ="addressLine2"
-      id="test2"
-      invalidText="Invalid error message."
+      id="addressLine2"
+      invalid={invalidity.addressLine2}
+      invalidText={errorText.addressLine2}
       labelText="Mailing Address 2 (optional)"
       
       placeholder="Unit #, Apt, Suite"
-      onChange={handleChange}
-      value={Values.addressLine2}
+      blur={handleChange}
     />
   </Column>
   </Row>
@@ -262,12 +397,12 @@ const LandingPage = () => {
     <TextInput
      ref={register({required : true} )}
      name ="city"
-      id="test2"
-      invalidText="Invalid error message."
+      id="city"
+      invalid={invalidity.city}
+      invalidText={errorText.city}
       labelText="City"
       placeholder="Seatle"
-      onChange={handleChange}
-      value={Values.city}
+      onBlur={handleChange}
     />
 </Column>
 <Column className="bx--column" >
@@ -275,11 +410,11 @@ const LandingPage = () => {
     <Column>
     <Select
       defaultValue="placeholder-item"
-      id="select-1"
-      invalidText="This is an invalid error message."
+      id="state"
+      invalid={invalidity.state}
+      invalidText={errorText.state}
       labelText="State"
-      onChange={handleChange}
-        value={Values.state}
+      onBlur={handleChange}
         name="state"
     >
      {States.map((statename) =>
@@ -299,12 +434,12 @@ const LandingPage = () => {
   <TextInput
    ref={register({required : true} )}
      name ="zip"
-      id="test2"
-      invalidText="Invalid error message."
+      id="zip"
+      invalid={invalidity.zip}
+      invalidText={errorText.zip}
       labelText="Postal Code"
       placeholder="#####"
-      onChange={handleChange}
-      value={Values.zip}
+      onBlur={handleChange}
     />
     </Column>
     </Row>
