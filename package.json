@@ -29,13 +29,19 @@
     "start": "set PORT=9001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint-fix": "eslint --fix --ext js,jsx,ts,tsx src/",
+    "lint-init": "eslint --init"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "env": {
+      "browser": true,
+      "node": true
+    }
   },
   "browserslist": {
     "production": [

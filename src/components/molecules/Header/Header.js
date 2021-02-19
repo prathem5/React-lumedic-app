@@ -1,29 +1,36 @@
 import React from 'react';
-import {
-    AppSwitcher20,
-    Notification20,
-    UserAvatar20,
-  } from '@carbon/icons-react';
+
 import {
   Header,
   HeaderName,
-  
+
 } from 'carbon-components-react';
 
-import LumedicLogo from './Logo';
+import Logo from './Logo';
+import {createUseStyles} from 'react-jss';
 
-const LumedicHeader = () => (
+const styles =createUseStyles({
+  logo:{
+    marginLeft:'1.5rem'
+  }
+});
+
+const LumedicHeader = () => {
+  const classes = styles();
+
+  return (
   <div className="container">
-    <span>
-   
-    </span>
-    <Header style={{backgroundColor:'#f4f4f4',border:0}} >
- <LumedicLogo/>
-      <HeaderName style ={{color:'#161616'}}href="#" prefix="">
+    <span />
+    <Header style={{ backgroundColor: '#f4f4f4', border: 0 }}>
+      <div className={classes.logo}>
+      <Logo/>
+      </div>
+      <HeaderName style={{ color: '#161616' }} href="#" prefix="">
         Lumedic
       </HeaderName>
     </Header>
-  </div>
-);
+  </div> 
+  );
+  };
 
 export default LumedicHeader;

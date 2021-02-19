@@ -4,7 +4,7 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "eslint:recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -17,5 +17,8 @@
         "react"
     ],
     "rules": {
+        "react/jsx-filename-extension": [1, {"extensions": [".js",".jsx"]}],
+        "max-len": ["error", { "code": 150 }],
+        "semi": "error"
     }
 }
