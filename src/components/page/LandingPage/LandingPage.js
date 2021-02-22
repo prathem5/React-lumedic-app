@@ -282,7 +282,7 @@ const LandingPage = () => {
         }}>
           <Grid>
             <Row style={{ paddingTop: '2rem' }}>
-              <Column>
+              <Column sm={4} md={6} lg={8}>
                 <TextInput
                   onChange={handleChange}
                   name="firstName"
@@ -297,7 +297,7 @@ const LandingPage = () => {
                 />
 
               </Column>
-              <Column>
+              <Column sm={4} md={4} lg={8}>
                 <TextInput
                 onChange={handleChange}
                 required
@@ -315,7 +315,7 @@ const LandingPage = () => {
             </Row>
             <Row style={{ paddingTop: '2rem' }}>
 
-              <Column>
+              <Column  sm={4} md={4} lg={8}>
                 <TextInput
                 type= 'date'
                 onChange={handleChange}
@@ -330,10 +330,10 @@ const LandingPage = () => {
                   onFocus={click}
                 />
               </Column>
-              <Column>
+              <Column  sm={4} md={4} lg={8}>
                 <TextInput
-                  type ='text'
-                  maxLength= '4'
+                  type ='number'
+                  
                   name="last4SSN"
                   id="last4SSN"
                   invalid={invalidity.last4SSN}
@@ -352,7 +352,7 @@ const LandingPage = () => {
 
               <Row>
 
-                <Column style={{ lineHeight: '0' }}>
+                <Column  sm={4} md={4} lg={8} style={{ lineHeight: '0' }}>
 
                   <TextInput
             
@@ -371,7 +371,7 @@ const LandingPage = () => {
                     value={Values.phoneNumber}
                   />
                 </Column>
-                <Column style={{ paddingTop: '1rem' }}>
+                <Column  sm={4} md={4} lg={8} style={{ paddingTop: '1rem' }}>
 
                   <TextInput
                   onChange={handleChange}
@@ -390,7 +390,7 @@ const LandingPage = () => {
             </div>
             <Row style={{ paddingTop: '2rem' }}>
               <div />
-              <Column>
+              <Column  sm={4} md={4} lg={8}>
                 <TextInput
                 onChange={handleChange}
                 required
@@ -405,7 +405,7 @@ const LandingPage = () => {
                   onFocus={click}
                 />
               </Column>
-              <Column>
+              <Column  sm={4} md={4} lg={8}>
                 <TextInput
                 onChange={handleChange}
                 required
@@ -422,7 +422,7 @@ const LandingPage = () => {
             </Row>
             <Row style={{ paddingTop: '2rem' }}>
               <div />
-              <Column>
+              <Column  sm={4} md={4} lg={8}>
                 <TextInput
                 onChange={handleChange}
                 required
@@ -462,13 +462,12 @@ const LandingPage = () => {
                     </Select>
                   </Column>
 
-                  <Column>
+                  <Column >
                     <TextInput
                     onChange={handleChange}
                       required
                       name="zip"
                       id="zip"
-                      maxLength= '5'
                       invalid={invalidity.zip}
                       invalidText={errorText.zip}
                       labelText="Postal Code"
