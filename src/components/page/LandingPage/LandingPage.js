@@ -23,14 +23,22 @@ const styles = createUseStyles({
     minHeight: ' calc(100% - 82)',
 
   },
+
+gridClass:{
+  
+  paddingRight:0,
+  paddingLeft:0,
+ 
+},
   formContainer: {
     padding: {
       top: 40,
       right: 40,
       bottom: 40,
       left: 40,
-
+    
     },
+    
     maxWidth: '100%',
     backgroundColor: '#e0e0e0   ',
 
@@ -38,6 +46,7 @@ const styles = createUseStyles({
   dexcriptionText: {
     fontWeight: '800',
     fontSize: '0.875rem',
+    paddingBottom:'2rem',
 
     lineHeight: '1.25rem',
     letterSpacing: 0.16,
@@ -63,6 +72,68 @@ const styles = createUseStyles({
     letterSpacing: 0.16,
 
   },
+  formRow:{
+    paddingTop:'2rem'
+  },
+
+  '@media screen and (max-width: 671px)':{
+    formContainer: {
+    padding:0,
+  
+  },
+  formRow:{
+    padding:{
+      top:'0.75rem' ,
+      right: 10,
+      bottom: 0,
+      left: 20,
+    }
+  },
+  formCol:{
+    paddingTop:24
+
+  },
+  infoDescription:{
+    margin:{
+      top:'1rem' ,
+      right: '1rem',
+      bottom: 0,
+      left: '1rem',
+
+    },
+    fontFamily:'brown',
+    fontSize:'1rem'
+  },
+  dexcriptionText:{
+    margin:{
+      top:'1rem' ,
+      right: '1rem',
+      bottom: 0,
+      left: '1rem',
+
+    },
+    fontFamily:'brown',
+    fontSize:'1rem'
+
+  },
+  pageHeading:{
+    fontSize: '2rem',
+    fontWeight: '400',
+    lineHeight: '2.5rem',
+    letterSpacing: 0.16,
+    paddingTop: ' 4rem',
+    paddingBottom: '3rem',
+    fontFamily: 'Victor',
+    paddingLeft:'1rem'
+    
+  },
+  headContent:{
+    paddingLeft:'1rem',
+    paddingRight:'1rem',
+    backgroundColor:'blue'
+  }
+ 
+  },
 });
 
 const LandingPage = () => {
@@ -84,19 +155,26 @@ const LandingPage = () => {
   });
   const [invalidity, setinValidity] = useState({
 
-    firstName: false,
-    lastName: false,
-    dateOfBirth: false,
-    email: false,
-    last4SSN: false,
-    phoneNumber: false,
-    addressLine1: false,
-    addressLine2: false,
-    city: false,
-    state: false,
-    zip: false,
+    firstName: undefined,
+    lastName: undefined,
+    dateOfBirth: undefined,
+    email: undefined,
+    last4SSN: undefined,
+    phoneNumber: undefined,
+    addressLine1: undefined,
+    addressLine2: undefined,
+    city: undefined,
+    state: undefined,
+    zip: undefined,
+   
 
   });
+  const isFormValid =()=>{
+    // return this.firstName + this.lastName + this.dateOfBirth + this.phoneNumber + this.last4SSN + this.addressLine1 + this.zip + this.city
+    // + this.email  === 10;
+    const result = Object.values(invalidity).filter(val => val === false ).length === 10;
+    return result;
+  };
 
   const [errorText, setErrorText] = useState({
 
@@ -118,16 +196,16 @@ const LandingPage = () => {
     email:/([a-z0-9.]+@[a-z]+[.][a-z]+)/,
     postal:/[0-9]{5}/
   };
-  const click = (e) => {
+  const handleFocus = (e) => {
+   
     setinValidity({ ...invalidity, [e.target.id]: false });
   };
+
+
  const handleBlur=(e)=>{
-   
-  
-  
 
     if (e.target.id === 'firstName') {
-      if (e.target.value === '') {
+      if ( e.target.value ===''||e.target.value === undefined) {
         setinValidity({ ...invalidity, [e.target.id]: true });
         setErrorText({ ...errorText, [e.target.id]: 'FirstName is Required' });
       } else {
@@ -135,7 +213,7 @@ const LandingPage = () => {
       }
     }
     if (e.target.id === 'lastName') {
-      if (e.target.value === '') {
+      if (e.target.value === undefined||e.target.value === '') {
         setinValidity({ ...invalidity, [e.target.id]: true });
         setErrorText({ ...errorText, [e.target.id]: 'LastName is Required' });
       } else {
@@ -144,7 +222,7 @@ const LandingPage = () => {
     }
 
     if (e.target.id === 'dateOfBirth') {
-      if (e.target.value === '' || e.target.value !=regex.dateOfBirth) {
+      if (e.target.value === undefined||e.target.value === '' ) {
         setinValidity({ ...invalidity, [e.target.id]: true });
         setErrorText({ ...errorText, [e.target.id]: 'Please enter the correct date format' });
       } else {
@@ -152,7 +230,7 @@ const LandingPage = () => {
       }
     }
     if (e.target.id === 'last4SSN') {
-      if (e.target.value === '' || e.target.value != ('([0-9]{4})')) {
+      if (e.target.value === undefined||e.target.value === ''||Values.last4SSN.length < 4) {
         setinValidity({ ...invalidity, [e.target.id]: true });
         setErrorText({ ...errorText, [e.target.id]: 'SSN is Required' });
       } else {
@@ -162,37 +240,24 @@ const LandingPage = () => {
 
 
     if (e.target.id === 'phoneNumber') {
-      let Num=e.target.value;
-      console.log(':'+Num[2]);
-      console.log( Values.phoneNumber.length);
-      if ( Values.phoneNumber.length >= 10 ){
-        if( Values.phoneNumber.length > 10){
-          console.log( "in" );
-          setinValidity({ ...invalidity, [e.target.id]: true });
-          setErrorText({ ...errorText, [e.target.id]: 'Please enter 10 digit Mobile number' });
-        }
-        else{
-        console.log( Values.phoneNumber.length == 10  );
-        setinValidity({ ...invalidity, [e.target.id]: false });
-         setValues({...Values,
-            [e.target.id]:'('+ Num[0]+Num[1]+Num[2]+')'+Num[3]+Num[4]+Num[5]+'-'+Num[6]+Num[7]+Num[8]+Num[9]});
-        }
-      
-      }else if(Values.phoneNumber.length < 10){
-        setinValidity({ ...invalidity, [e.target.id]: true });
-        setErrorText({ ...errorText, [e.target.id]: 'Please enter 10 digit Mobile number' });  
-      }
-      else if(Values.phoneNumber.length > 10 || Values.phoneNumber ===''){
-
-        console.log( invalidity.phoneNumber);
+   
+     
+      if ( Values.phoneNumber.length < 10 ||  Values.phoneNumber ===''|| Values.phoneNumber === undefined ){
         setinValidity({ ...invalidity, [e.target.id]: true });
         setErrorText({ ...errorText, [e.target.id]: 'Please enter 10 digit Mobile number' });
       }
+        else{
+        console.log( Values.phoneNumber.length == 10  );
+        setinValidity({ ...invalidity, [e.target.id]: false });
+       //  setValues({...Values,
+         //   [e.target.id]:'('+ Num[0]+Num[1]+Num[2]+')'+Num[3]+Num[4]+Num[5]+'-'+Num[6]+Num[7]+Num[8]+Num[9]});
+        }
+      
     }
     
 
     if (e.target.id === 'email') {
-      if (e.target.value === '' || !regex.email.test(e.target.value)) {
+      if (e.target.value === '' ||e.target.value === undefined ||!(regex.email.test(e.target.value)) ) {
         setinValidity({ ...invalidity, [e.target.id]: true });
         setErrorText(
     { ...errorText, [e.target.id]: 'Please enter valid email in format: you@mail.com' });
@@ -202,7 +267,7 @@ const LandingPage = () => {
     }
 
     if (e.target.id === 'addressLine1') {
-      if (e.target.value === '') {
+      if (e.target.value === ''||e.target.value === undefined) {
         setinValidity({ ...invalidity, [e.target.id]: true });
         setErrorText({ ...errorText, [e.target.id]: 'Address is Required' });
       } else {
@@ -210,33 +275,44 @@ const LandingPage = () => {
       }
     }
     if (e.target.id === 'city') {
+      if (e.target.value === ''||e.target.value === undefined) {
+        setinValidity({ ...invalidity, [e.target.id]: true });
+      } else {
+        setinValidity({ ...invalidity, [e.target.id]: false });
+      }
+    }
+    if (e.target.id === 'zip' || e.target.value === undefined) {
       if (e.target.value === '') {
         setinValidity({ ...invalidity, [e.target.id]: true });
       } else {
         setinValidity({ ...invalidity, [e.target.id]: false });
       }
     }
-    if (e.target.id === 'zip' || e.target.value != ('(\\d{5})')) {
-      if (e.target.value === '') {
-        setinValidity({ ...invalidity, [e.target.id]: true });
-      } else {
-        setinValidity({ ...invalidity, [e.target.id]: false });
-      }
-    }
-
+   
 
  };
   const handleChange = (e) => {
-    console.log();
     e.preventDefault();
+
     const { name, value } = e.target;
+
+    if (name === 'phoneNumber'){
+      const replaceText = value.replace(/\D+/g, '');
+       
+    setValues({
+      ...Values,
+      [name]: replaceText,
+    });
+    }
+    else{ 
+   
     setValues({
       ...Values,
       [name]: value,
     });
-
-    
+  } 
   };
+  
 
   //  const validateInfo=(event)=>{
 
@@ -256,18 +332,22 @@ const LandingPage = () => {
   return (
 
     <div className={classes.contentWrapper}>
-      <div className={classes.pageHeading}>
-        <h1>Enter your personal information</h1>
-      </div>
+      
+        <div className={classes.pageHeading}>Enter your personal information</div>
+
+        <div className={classes.headContent}>
+      
       <ProgressBar />
+      
+      </div>
       <div className={classes.formContainer}>
-        <div>
-          <label className={classes.dexcriptionText} style={{ fontWeight: '' }}>
+        <div className={classes.dexcriptionText} >
+          <label >
             Please enter the same information you provided in your Providence 
             health system medical record.</label>
         </div>
-        <div style={{ paddingTop: '2rem' }}>
-          <label className={classes.infoDescription}>
+        <div  className={classes.infoDescription} >
+          <label>
             The information you provide on this page is used to locate your record 
             from your health system for the
             purpose of issuing your vaccine records to your mobile device.
@@ -277,18 +357,21 @@ const LandingPage = () => {
             marketing, and messaging or data charges may be imposed by your carrier.
           </label>
         </div>
-        <Form onSubmit={(event) => {
+        <Form disabled ={isFormValid}
+        onSubmit={(event) => {
+          console.log('clicked');
           event.preventDefault(PatientValidate(Values));
         }}>
-          <Grid>
-            <Row style={{ paddingTop: '2rem' }}>
-              <Column sm={4} md={6} lg={8}>
+          <Grid className={classes.gridClass}>
+            <Row className= {classes.formRow}>
+              <Column sm={4} md={4  } lg={8} className= {classes.formCol}>
                 <TextInput
+                 required
                   onChange={handleChange}
                   name="firstName"
                   id="firstName"
-                  onFocus={click}
-    // value={Values.firstName}
+                  onFocus={handleFocus}
+     value={Values.firstName}
                   labelText="FirstName"
                   placeholder="Jhon"
                   onBlur={handleBlur}
@@ -297,7 +380,7 @@ const LandingPage = () => {
                 />
 
               </Column>
-              <Column sm={4} md={4} lg={8}>
+              <Column sm={4} md={4} lg={8}  className= {classes.formCol}>
                 <TextInput
                 onChange={handleChange}
                 required
@@ -309,15 +392,15 @@ const LandingPage = () => {
                   invalidText={errorText.lastName}
                   labelText="LastName"
                   placeholder="Doe"
-                  onFocus={click}
+                  onFocus={handleFocus}
                 />
               </Column>
             </Row>
-            <Row style={{ paddingTop: '2rem' }}>
+            <Row className= {classes.formRow}>
 
-              <Column  sm={4} md={4} lg={8}>
+              <Column  sm={4} md={4} lg={8}  className= {classes.formCol}>
                 <TextInput
-                type= 'date'
+                type= 'text'
                 onChange={handleChange}
                 required
                   name="dateOfBirth"
@@ -327,10 +410,10 @@ const LandingPage = () => {
                   labelText="Date of Birth"
                   placeholder="DD/MM/YYYY"
                   onBlur={handleBlur}
-                  onFocus={click}
+                  onFocus={handleFocus}
                 />
               </Column>
-              <Column  sm={4} md={4} lg={8}>
+              <Column  sm={4} md={4} lg={8}  className= {classes.formCol}>
                 <TextInput
                   type ='number'
                   
@@ -342,20 +425,20 @@ const LandingPage = () => {
                   placeholder="####"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  onFocus={click}
+                  onFocus={handleFocus}
                 />
               </Column>
             </Row>
-            <div style={{ paddingTop: '2rem' }}>
+            <div className= {classes.formRow}>
 
               <span style={{ fontSize: '.75rem' }}>Mobile Number</span>
 
               <Row>
 
-                <Column  sm={4} md={4} lg={8} style={{ lineHeight: '0' }}>
+                <Column  sm={4} md={4} lg={8}  className= {classes.formCol}>
 
                   <TextInput
-            
+             required
                     name="phoneNumber"
                     id="phoneNumber"
                     type='tel'
@@ -367,11 +450,12 @@ const LandingPage = () => {
                     placeholder="(###)###-####"
                      onChange={handleChange}
                     onBlur={handleBlur}
-                    onFocus={click}
+                    onFocus={handleFocus}
                     value={Values.phoneNumber}
                   />
                 </Column>
-                <Column  sm={4} md={4} lg={8} style={{ paddingTop: '1rem' }}>
+                <Column  sm={4} md={4} lg={8}   className= {classes.formCol}
+                style={{paddingTop:'1rem'}}>
 
                   <TextInput
                   onChange={handleChange}
@@ -383,14 +467,14 @@ const LandingPage = () => {
                     labelText="Email"
                     placeholder="you@mail.com"
                     onBlur={handleBlur}
-                    onFocus={click}
+                    onFocus={handleFocus}
                   />
                 </Column>
               </Row>
             </div>
-            <Row style={{ paddingTop: '2rem' }}>
+            <Row className= {classes.formRow}>
               <div />
-              <Column  sm={4} md={4} lg={8}>
+              <Column  sm={4} md={4} lg={8}  className= {classes.formCol}>
                 <TextInput
                 onChange={handleChange}
                 required
@@ -402,10 +486,10 @@ const LandingPage = () => {
 
                   placeholder="Primary Street Address"
                   onBlur={handleBlur}
-                  onFocus={click}
+                  onFocus={handleFocus}
                 />
               </Column>
-              <Column  sm={4} md={4} lg={8}>
+              <Column  sm={4} md={4} lg={8}  className= {classes.formCol}>
                 <TextInput
                 onChange={handleChange}
                 required
@@ -420,9 +504,9 @@ const LandingPage = () => {
                 />
               </Column>
             </Row>
-            <Row style={{ paddingTop: '2rem' }}>
+            <Row className= {classes.formRow}>
               <div />
-              <Column  sm={4} md={4} lg={8}>
+              <Column  sm={4} md={4} lg={8 }  className= {classes.formCol}>
                 <TextInput
                 onChange={handleChange}
                 required
@@ -433,11 +517,11 @@ const LandingPage = () => {
                   labelText="City"
                   placeholder="Seatle"
                   onBlur={handleBlur}
-                  onFocus={click}
+                  onFocus={handleFocus}
                 />
               </Column>
-              <Column className="bx--column">
-                <Row>
+              <Column className= {classes.formCol}>
+                <Row >
                   <Column>
                     <Select
                     onChange={handleChange}
@@ -448,7 +532,7 @@ const LandingPage = () => {
                       labelText="State"
                       onBlur={handleBlur}
                       name="state"
-                      onFocus={click}
+                      onFocus={handleFocus}
                       required
                     >
                       {States.map((statename) => (
@@ -462,7 +546,7 @@ const LandingPage = () => {
                     </Select>
                   </Column>
 
-                  <Column >
+                  <Column  className= {classes.formCol} >
                     <TextInput
                     onChange={handleChange}
                       required
@@ -473,7 +557,7 @@ const LandingPage = () => {
                       labelText="Postal Code"
                       placeholder="#####"
                       onBlur={handleBlur}
-                      onFocus={click}
+                      onFocus={handleFocus}
                     />
                   </Column>
                 </Row>
@@ -481,12 +565,13 @@ const LandingPage = () => {
 
             </Row>
 
-            <Row style={{ paddingTop: '2rem' }}>
+            <Row className= {classes.formRow}>
               <Button
                 style={{ marginLeft: '1rem' }}
                 kind="secondary"
                 tabIndex={0}
-
+                disabled ={!isFormValid()}
+                
                 type="submit"
               >
                 Continue

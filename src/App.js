@@ -13,17 +13,18 @@ const styles = createUseStyles({
       bottom: 0,
       left: 'auto',
     },
+    padding:0,
     maxWidth: '800px',
     backgroundColor: '#a8a8a8',
   },
 
   Container: {
-    display: 'flex',
-    flexGrow: 1,
-    flexDirection: 'column',
+   
     backgroundColor: '#a8a8a8',
 
   },
+ 
+
 
 });
 
